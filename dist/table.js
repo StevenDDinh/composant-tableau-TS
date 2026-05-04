@@ -305,15 +305,23 @@ const table = new Tabulator("#id-table", {
             }
         },
         //Colonne Nom
-        { title: "Nom", field: "nom", /*editor: "input"*/ },
+        { title: "Nom", field: "nom" },
         //Colonne Prenom
-        { title: "Prenom", field: "prenom", editor: "input" },
+        { title: "Prenom", field: "prenom" },
         //Colonne Fonction
-        { title: "Fonction", field: "fonction", editor: "input" },
+        { title: "Fonction", field: "fonction",
+            formatter: (cell) => {
+                const val = cell.getValue() || "";
+                return `
+                    <select class="champ-fonction-encadre">
+                        <option>${val}</option>
+                    </select>
+                `;
+            }, },
         //Colonne Telephone
-        { title: "Telephone", field: "telephone", editor: "input" },
+        { title: "Telephone", field: "telephone" },
         //Colonne Mail
-        { title: "Mail", field: "mail", editor: "input" },
+        { title: "Mail", field: "mail" },
         //Colonne DerniereMAJ
         { title: "DerniereMAJ", field: "derniereMAJ", editor: "date", editorParams: {
                 format: "dd/MM/yyyy" // Pour ne pas avoir les dates au format anglais
@@ -357,9 +365,9 @@ const table = new Tabulator("#id-table", {
         },
         // Colonne action
         { title: "DPO", field: "faker", frozen: true, headerSort: false,
+            width: 50,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -373,7 +381,6 @@ const table = new Tabulator("#id-table", {
         { title: "Contact principal OCTIME", field: "faker", frozen: true, headerSort: false,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -387,7 +394,6 @@ const table = new Tabulator("#id-table", {
         { title: "Contact principal STAFFELIO", field: "faker", frozen: true, headerSort: false,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -607,33 +613,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 /**
- * Remplit dynamiquement un menu déroulant selon les données du tableau
+ * Remplit dynamiquement un ou plusieurs menus déroulants selon les données du tableau
  * - select : L'ID de l'élément HTML <select>
  * - valeur : Le champ de données (colonne) dont on veut extraire les valeurs
  * - data : Les données du tableau récupéré
  */
 const remplisseurDeSelect = (select, valeur, data) => {
     // Récupération de l'élément HTML
-    const selectNom = document.querySelector('#' + select);
-    // Création d'une liste des données récupérées de la colonne désirée
-    let listeNom = [];
-    data.forEach((ligne) => {
-        listeNom.push(ligne[valeur]);
-    });
-    [...new Set(listeNom.sort())].forEach((elt) => {
-        const newOption = document.createElement("option");
-        newOption.value = elt;
-        newOption.innerText = elt;
-        selectNom?.appendChild(newOption);
+    const listesSelectHtml = document.querySelectorAll(select);
+    console.log(listesSelectHtml);
+    // Création de la liste unique
+    const valeursUniques = [...new Set(data.map(ligne => ligne[valeur]))].sort();
+    let i = 0;
+    // 3. Boucle sur CHAQUE <select> trouvé pour le remplir
+    listesSelectHtml.forEach((selectNode) => {
+        console.log(i += 1, selectNode);
+        valeursUniques.forEach((elt) => {
+            const newOption = document.createElement("option");
+            newOption.value = String(elt);
+            newOption.innerText = String(elt);
+            selectNode.appendChild(newOption);
+        });
     });
 };
 // Appel de remplisseurDeSelect après construction du tableau
 document.addEventListener("DOMContentLoaded", () => {
     table.on("tableBuilt", () => {
         const data = table.getData();
-        remplisseurDeSelect("nomSelect", "nom", data);
-        remplisseurDeSelect("prenomSelect", "prenom", data);
-        remplisseurDeSelect("fonctionSelect", "fonction", data);
+        remplisseurDeSelect("#nomSelect", "nom", data);
+        remplisseurDeSelect("#prenomSelect", "prenom", data);
+        remplisseurDeSelect("#fonctionSelect", "fonction", data);
+        remplisseurDeSelect(".champ-fonction-encadre", "fonction", data);
     });
 });
 // Bouton valider de la fenetre de filtre global
@@ -716,4 +726,10 @@ table.on("rowSelectionChanged", (data) => {
             table.deselectRow();
         });
     }
+});
+const btnContact = document.querySelector("#btn-contact");
+btnContact?.addEventListener("click", () => {
+    console.log("clique");
+    table.addRow();
+    console.log(table.getDataCount());
 });

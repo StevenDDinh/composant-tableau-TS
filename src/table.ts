@@ -369,15 +369,23 @@ const table = new Tabulator("#id-table", {
             }
         },
         //Colonne Nom
-        { title: "Nom", field: "nom", /*editor: "input"*/},
+        { title: "Nom", field: "nom"},
         //Colonne Prenom
-        { title: "Prenom", field: "prenom", editor: "input"},
+        { title: "Prenom", field: "prenom"},
         //Colonne Fonction
-        { title: "Fonction", field: "fonction", editor: "input"},
+        { title: "Fonction", field: "fonction",
+             formatter:(cell):any =>{
+                const val = cell.getValue() || "";
+                return `
+                    <select class="champ-fonction-encadre">
+                        <option>${val}</option>
+                    </select>
+                `;
+            },},
         //Colonne Telephone
-        { title: "Telephone", field: "telephone", editor: "input"},
+        { title: "Telephone", field: "telephone"},
         //Colonne Mail
-        { title: "Mail", field: "mail", editor: "input"},
+        { title: "Mail", field: "mail"},
         //Colonne DerniereMAJ
         { title: "DerniereMAJ", field: "derniereMAJ", editor: "date",editorParams:{
             format:"dd/MM/yyyy" // Pour ne pas avoir les dates au format anglais
@@ -420,11 +428,10 @@ const table = new Tabulator("#id-table", {
             }       
         },
         // Colonne action
-        
         { title: "DPO", field: "faker", frozen: true, headerSort:false,
+            width:50,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -437,9 +444,9 @@ const table = new Tabulator("#id-table", {
             headerPopupIcon: ""  
         },
         { title: "Contact principal OCTIME", field: "faker", frozen: true, headerSort:false,
+            
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -454,7 +461,6 @@ const table = new Tabulator("#id-table", {
         { title: "Contact principal STAFFELIO", field: "faker", frozen: true, headerSort:false,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
                 return `
                     <label class="switch">
                         <input type="checkbox" ${checked}>
@@ -711,26 +717,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Remplit dynamiquement un menu déroulant selon les données du tableau
+ * Remplit dynamiquement un ou plusieurs menus déroulants selon les données du tableau
  * - select : L'ID de l'élément HTML <select>
  * - valeur : Le champ de données (colonne) dont on veut extraire les valeurs
  * - data : Les données du tableau récupéré 
  */
-const remplisseurDeSelect = (select:string, valeur:string, data:object[])=>{
+const remplisseurDeSelect = (select: string, valeur: string, data: any[]) => {
     // Récupération de l'élément HTML
-    const selectNom:HTMLElement|null = document.querySelector('#'+select);
+    const listesSelectHtml:NodeListOf<Element> = document.querySelectorAll(select);
+    console.log(listesSelectHtml);
 
-    // Création d'une liste des données récupérées de la colonne désirée
-    let listeNom:string[] = [];
-    data.forEach((ligne:any)=>{
-        listeNom.push(ligne[valeur]);
-    });
+    // Création de la liste unique
+    const valeursUniques = [...new Set(data.map(ligne => ligne[valeur]))].sort();
+    let i:number = 0;
 
-    [...new Set(listeNom.sort())].forEach((elt)=>{
-        const newOption = document.createElement("option");
-        newOption.value = elt;
-        newOption.innerText = elt;
-        selectNom?.appendChild(newOption);
+    // 3. Boucle sur CHAQUE <select> trouvé pour le remplir
+    listesSelectHtml.forEach((selectNode) => {
+        console.log(i+=1, selectNode);
+        
+        valeursUniques.forEach((elt) => {
+            const newOption = document.createElement("option");
+            newOption.value = String(elt);
+            newOption.innerText = String(elt);
+            
+            selectNode.appendChild(newOption);
+        });
     });
 }
 
@@ -738,9 +749,10 @@ const remplisseurDeSelect = (select:string, valeur:string, data:object[])=>{
 document.addEventListener("DOMContentLoaded",()=>{
     table.on("tableBuilt", ()=>{
         const data:object[] = table.getData();
-        remplisseurDeSelect("nomSelect","nom",data);
-        remplisseurDeSelect("prenomSelect","prenom",data);
-        remplisseurDeSelect("fonctionSelect","fonction",data);
+        remplisseurDeSelect("#nomSelect","nom",data);
+        remplisseurDeSelect("#prenomSelect","prenom",data);
+        remplisseurDeSelect("#fonctionSelect","fonction",data);
+        remplisseurDeSelect(".champ-fonction-encadre","fonction",data);
     })
 })
 
@@ -838,3 +850,11 @@ table.on("rowSelectionChanged", (data:any) => {
         })
     }
 });
+
+const btnContact = document.querySelector("#btn-contact");
+
+btnContact?.addEventListener("click", ()=>{
+    console.log("clique");
+    table.addRow();
+    console.log(table.getDataCount());
+})
