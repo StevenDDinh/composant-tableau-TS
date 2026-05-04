@@ -356,12 +356,8 @@ const table = new Tabulator("#id-table", {
     columns: [
         //Colonne Civilité
         { title: "Civilite", field: "civilite",
-            //Editer la colonne qu'avec la liste de valeur définie dans editorParams
-            editor: "list", editorParams: {
-                values: ["M.", "Mme"]
-            },
             
-            // A voir si je garde ou pas 
+            // création d'un menu déroulant
             formatter:(cell):any =>{
                 const val = cell.getValue() || "";
                 return `
@@ -373,7 +369,7 @@ const table = new Tabulator("#id-table", {
             }
         },
         //Colonne Nom
-        { title: "Nom", field: "nom", editor: "input"},
+        { title: "Nom", field: "nom", /*editor: "input"*/},
         //Colonne Prenom
         { title: "Prenom", field: "prenom", editor: "input"},
         //Colonne Fonction
@@ -395,18 +391,37 @@ const table = new Tabulator("#id-table", {
         },
         //Colonne AccesSupport
         { title: "AccesSupport", field: "accesSupport",
-            editor: "list", editorParams: {
-                values: ["true", "false"]
-            }        },
+            // editor: "list", editorParams: {
+            //     values: ["oui", "non"]
+            // },    
+            formatter:(cell):any =>{
+                const val = cell.getValue() || "";
+                return `
+                    <select class="champ-encadre">
+                        <option value="Oui" ${val === 'oui' ? 'selected' : ''}>Oui</option>
+                        <option value="Non" ${val === 'non' ? 'selected' : ''}>Non</option>
+                    </select>
+                `;
+            }  
+        },
         //Colonne ContactPrincipe
         { title: "ContactPrincipe", field: "contactPrincipe",
-            editor: "list", editorParams: {
-                values: ["true", "false"]
+            // editor: "list", editorParams: {
+            //     values: ["oui", "non"]
+            // },
+            formatter:(cell):any =>{
+                const val = cell.getValue() || "";
+                return `
+                    <select class="champ-encadre">
+                        <option value="Oui" ${val === 'Oui' ? 'selected' : ''}>Oui</option>
+                        <option value="Non" ${val === 'Non' ? 'selected' : ''}>Non</option>
+                    </select>
+                `;
             }       
         },
         // Colonne action
         
-        { title: "Petit btn", field: "faker", frozen: true, headerSort:false,
+        { title: "DPO", field: "faker", frozen: true, headerSort:false,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
                 // On crée un switch HTML classique
@@ -421,7 +436,7 @@ const table = new Tabulator("#id-table", {
             headerFilter: undefined, 
             headerPopupIcon: ""  
         },
-        { title: "Bouton action 1", field: "faker", frozen: true, headerSort:false,
+        { title: "Contact principal OCTIME", field: "faker", frozen: true, headerSort:false,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
                 // On crée un switch HTML classique
@@ -436,7 +451,7 @@ const table = new Tabulator("#id-table", {
             headerFilter: undefined, 
             headerPopupIcon: ""  
         },
-        { title: "Bouton action 2", field: "faker", frozen: true, headerSort:false,
+        { title: "Contact principal STAFFELIO", field: "faker", frozen: true, headerSort:false,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
                 // On crée un switch HTML classique
