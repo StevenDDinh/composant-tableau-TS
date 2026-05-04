@@ -335,22 +335,6 @@ const table = new Tabulator("#id-table", {
         headerPopupIcon: iconeFiltre,
         headerFilter: emptyHeaderFilter, // Permet de ne pas afficher l'input par défaut
         headerFilterFunc: "in",
-        formatter:(cell):any =>{
-                const val = cell.getValue() || "";
-                return `
-                    <input type="text" class="champ-encadre" value="${val}" placeholder="Saisir un nom...">
-                `;
-            },
-        // 2. On sauvegarde la donnée quand l'utilisateur tape du texte
-        // cellClick: (e, cell) => {
-        //     const vTarget= <HTMLSelectElement>e.target
-        //     if (vTarget.tagName === "INPUT") {
-        //         vTarget.addEventListener('input', (event) => {
-        //             cell.setValue((<HTMLSelectElement>event.target).value);
-        //         }, { once: true });
-        //     }
-        // }
-        
         },
     // Définition des colonnes du tableau
     columns: [
@@ -359,17 +343,6 @@ const table = new Tabulator("#id-table", {
             //Editer la colonne qu'avec la liste de valeur définie dans editorParams
             editor: "list", editorParams: {
                 values: ["M.", "Mme"]
-            },
-            
-            // A voir si je garde ou pas 
-            formatter:(cell):any =>{
-                const val = cell.getValue() || "";
-                return `
-                    <select class="champ-encadre">
-                        <option value="Monsieur" ${val === 'M.' ? 'selected' : ''}>Monsieur</option>
-                        <option value="Madame" ${val === 'Mme' ? 'selected' : ''}>Madame</option>
-                    </select>
-                `;
             }
         },
         //Colonne Nom
@@ -405,52 +378,13 @@ const table = new Tabulator("#id-table", {
             }       
         },
         // Colonne action
+        { title: "Bouton", field: "faker", frozen: true, headerSort:false,
+            // @ts-ignore
+            headerPopup: false, 
+            headerFilter: undefined, 
+            headerPopupIcon: ""  
+        },
         
-        { title: "Petit btn", field: "faker", frozen: true, headerSort:false,
-            formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
-                return `
-                    <label class="switch">
-                        <input type="checkbox" ${checked}>
-                        <span class="slider round"></span>
-                    </label>`;
-                },
-            // @ts-ignore
-            headerPopup: false, 
-            headerFilter: undefined, 
-            headerPopupIcon: ""  
-        },
-        { title: "Bouton action 1", field: "faker", frozen: true, headerSort:false,
-            formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
-                return `
-                    <label class="switch">
-                        <input type="checkbox" ${checked}>
-                        <span class="slider round"></span>
-                    </label>`;
-                },
-            // @ts-ignore
-            headerPopup: false, 
-            headerFilter: undefined, 
-            headerPopupIcon: ""  
-        },
-        { title: "Bouton action 2", field: "faker", frozen: true, headerSort:false,
-            formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
-                // On crée un switch HTML classique
-                return `
-                    <label class="switch">
-                        <input type="checkbox" ${checked}>
-                        <span class="slider round"></span>
-                    </label>`;
-                },
-            // @ts-ignore
-            headerPopup: false, 
-            headerFilter: undefined, 
-            headerPopupIcon: ""  
-        },
     ],
     // Affichage dans le footer le nombre de lignes selectionnées 
     footerElement: `<div id="id-footer-nb-ligne">

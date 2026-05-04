@@ -223,22 +223,7 @@ body{
     border: 1px solid var(--Texte-Noir2, #6A6D71);
 } */
 
-.champ-encadre {
-    width: 100%;                  /* Prend toute la largeur de la cellule */
-    box-sizing: border-box;       /* Empêche de déborder */
-    padding: 6px 10px;            /* Espace à l'intérieur de la case */
-    border: 1px solid #D1D5DB;    /* La fameuse bordure grise (l'encadré) */
-    border-radius: 5px;           /* Les coins légèrement arrondis */
-    background-color: #FFFFFF;    /* Fond blanc */
-    color: #4B5563;               /* Couleur du texte (gris foncé) */
-    font-size: 13px;              /* Taille du texte */
-    /* outline: none;                Enlève le contour moche par défaut */
-    transition: border-color 0.2s; /* Petite animation au clic */
-}
 
-.champ-encadre:focus {
-    border-color: #3B82F6;        /* Devient bleu au clic */
-}
 
 /* --- STYLE DES FENETRES DE FILTRE PAR COLONNE --- */
 .popup-headerFilter{
@@ -682,59 +667,3 @@ select option{
     justify-content: flex-end;
     padding-top: 1%;
 } 
-
-
-/***************
- *
- * bouton switch
- * 
- ****************/
-
-
-
-/* Le conteneur du switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 34px;
-  height: 20px;
-}
-
-/* On cache la checkbox originale */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* Le curseur (slider) */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-/* Couleur quand c'est activé (bleu par défaut, tu peux mettre du vert) */
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-/* Mouvement du petit rond blanc */
-input:checked + .slider:before {
-  transform: translateX(14px);
-}
