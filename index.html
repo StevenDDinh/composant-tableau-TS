@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabulator table</title>
+    <link href="./node_modules/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="./node_modules/tabulator-tables/dist/js/tabulator.min.js"></script>
+    
+    <!-- Utilisation de la bibliothèque font-awesome pour les petits icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Utilisation de la bibliothèque luxon pour la convertion des dates -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+
+    <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+    <h1>Tableau !</h1>
+
+        <div id="barre-header">
+            <!-- BARRE DE RECHERCHE -->
+            <div id="id-barre-recherche">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="input-barre-rechercher" placeholder="Rechercher">
+            </div>
+            
+            
+            <!-- BOUTON ORGANISER COLONNE -->
+            <div id="id-organiser-colonne" >
+                <button id="btn-organiser-colonne">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M4.31249 2.25C3.18008 2.25 2.24999 3.18008 2.24999 4.3125V10.9702C2.24007 11.0306 2.24007 11.0922 2.24999 11.1526V13.6875C2.24999 14.8199 3.18008 15.75 4.31249 15.75H13.6875C14.8199 15.75 15.75 14.8199 15.75 13.6875V11.1548C15.7599 11.0944 15.7599 11.0328 15.75 10.9724V4.3125C15.75 3.18008 14.8199 2.25 13.6875 2.25H4.31249ZM4.31249 3.375H8.43749V6.375H3.37499V4.3125C3.37499 3.78817 3.78816 3.375 4.31249 3.375ZM9.56249 3.375H13.6875C14.2118 3.375 14.625 3.78817 14.625 4.3125V6.375H9.56249V3.375ZM3.37499 7.5H8.43749V10.5H3.37499V7.5ZM9.56249 7.5H14.625V10.5H9.56249V7.5ZM3.37499 11.625H8.43749V14.625H4.31249C3.78816 14.625 3.37499 14.2118 3.37499 13.6875V11.625ZM9.56249 11.625H14.625V13.6875C14.625 14.2118 14.2118 14.625 13.6875 14.625H9.56249V11.625Z" fill="#006EDC"/>
+                    </svg>
+                    Organiser les colonnes 
+                </button>
+
+                <div id="popupOrganisation" ></div>
+            </div>
+
+            <!-- BOUTON FILTRE -->
+            <div id="id-filtre">
+                <button id="btn-filtre">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M7.6875 15.7501C7.60125 15.7501 7.51125 15.7313 7.42875 15.6863C7.24125 15.5888 7.125 15.3976 7.125 15.1876V9.52134L3.3225 6.55509C2.64 6.01509 2.25 5.21259 2.25 4.34259V3.18384C2.25 2.66634 2.67 2.24634 3.1875 2.24634H14.8125C15.33 2.24634 15.75 2.66634 15.75 3.18384V4.34259C15.75 5.20884 15.36 6.01509 14.6775 6.55134L10.875 9.51759V13.3088C10.875 13.4888 10.7888 13.6613 10.6388 13.7663L8.01375 15.6413C7.91625 15.7126 7.80375 15.7463 7.6875 15.7463V15.7501ZM3.375 3.37509V4.34634C3.375 4.86759 3.6075 5.35134 4.02 5.67009L8.03625 8.80134C8.17125 8.90634 8.25375 9.07134 8.25375 9.24384V14.0888L9.75375 13.0163V9.24009C9.75375 9.06759 9.8325 8.90259 9.97125 8.79759L13.9875 5.66259C14.3925 5.34384 14.6287 4.86009 14.6287 4.33884V3.36759H3.375V3.37509Z" fill="#006EDC"/>
+                    </svg>
+                    Filtre 
+                </button>
+
+                <div id="popup-interrogation" class="popup-filtre-global-interrogation-avancee">
+                    
+                    <div class="popup-filtre-global-header">
+                        <h2>Interrogation avancée</h2>
+                        <div class="header-icons">
+                            <!-- icone point d'interrogation -->
+                            <i class="fa-regular fa-circle-question" title="Aide"></i>
+
+                            <!-- icone croix -->
+                            <i class="fa-solid fa-xmark" id="fermer-interrogation" title="Fermer"></i>
+                        </div>
+                    </div>
+
+                    <div class="popup-filtre-global-body">
+                        <div class="form-group-filtre-global">
+                            <label>Nom *</label>
+                            <select id="nomSelect" class="select">
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-filtre-global">
+                            <label>Prénom *</label>
+                            <select id="prenomSelect" class="select">
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-filtre-global">
+                            <label>Fonction *</label>
+                            <select id="fonctionSelect" class="select">
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group-filtre-global half">
+                                <label>Période du *</label>
+                                <input id="dateDeb-global" type="date" class="input-with-icon"></input>
+                            </div>
+
+                            <div class="form-group-filtre-global half">
+                                <label>au *</label>
+                                <input id="dateFin-global" type="date" class="input-with-icon"></input>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="popup-footer-filtre-global">
+                        <button class="btn-reinitialiser-av">Réinitialiser</button>
+                        <div>
+                            <button class="btn-annuler-av">Annuler</button>
+                            <button class="btn-valider-av">Valider</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- BOUTON ACTION -->
+            <div id="id-action">
+                <button id="btn-action"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M9.1875 14.145C8.87625 14.145 8.625 13.8937 8.625 13.5825V4.41748C8.625 4.10623 8.87625 3.85498 9.1875 3.85498C9.49875 3.85498 9.75 4.10623 9.75 4.41748V13.5825C9.75 13.8937 9.49875 14.145 9.1875 14.145Z" fill="white"/>
+                        <path d="M13.77 9.5625H4.60498C4.29373 9.5625 4.04248 9.31125 4.04248 9C4.04248 8.68875 4.29373 8.4375 4.60498 8.4375H13.77C14.0812 8.4375 14.3325 8.68875 14.3325 9C14.3325 9.31125 14.0812 9.5625 13.77 9.5625Z" fill="white"/>
+                    </svg>
+                    Ajouter un contact </button>
+            </div>
+        </div>
+
+        <div id="id-table"></div>
+
+        <div id="div-btn-transmettre">
+            <button class="btn-transmettre">Transmettre les informations</button>
+        </div>
+        
+
+    <script type="module" src="dist/table.js"></script>
+</body>
+</html>

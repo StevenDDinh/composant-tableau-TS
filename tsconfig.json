@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "./src", // Expliciter la base source des fichiers typescript
+        "target": "ES2022",
+        "noEmitOnError": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "ignoreDeprecations": "6.0",
+        "typeRoots": ["./node_modules/@types"]
+    },
+    "include":["src/**/*"]
+}

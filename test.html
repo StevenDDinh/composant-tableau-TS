@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemple Tabulator</title>
+
+  <!-- CSS Tabulator depuis le CDN -->
+  <link href="./node_modules/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+
+  <!-- JS Tabulator depuis le CDN -->
+  <script src="./node_modules/tabulator-tables/dist/js/tabulator.min.js"></script>
+</head>
+<body>
+
+  <div id="example-table"></div>
+
+  <script>
+    // Instanciation directe sans import
+    const table = new Tabulator("#example-table", {
+      data: [
+        {id:1, name:"Jean", age:34},
+        {id:2, name:"Marie", age:29},
+      ],
+      columns: [
+        {title:"ID", field:"id"},
+        {title:"Nom", field:"name"},
+        {title:"Âge", field:"age"},
+      ],
+    });
+  </script>
+
+</body>
+</html>
