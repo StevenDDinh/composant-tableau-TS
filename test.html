@@ -15,18 +15,33 @@
   <div id="example-table"></div>
 
   <script>
-    // Instanciation directe sans import
-    const table = new Tabulator("#example-table", {
-      data: [
-        {id:1, name:"Jean", age:34},
-        {id:2, name:"Marie", age:29},
-      ],
-      columns: [
-        {title:"ID", field:"id"},
-        {title:"Nom", field:"name"},
-        {title:"Âge", field:"age"},
-      ],
+    // Exemple d'intégration avec Tabulator
+    // fetch("https://dummyjson.com/products")
+    // .then(res => res.json()) // Permet de convertir les données récupérées en json
+    // .then(data => {
+    //     var table = new Tabulator("#example-table", {
+    //         data: data.products, // données injectées manuellement
+    //         autoColumns:true
+    //     });
+    //     console.log("Affichage des données récupérées");
+    //     table.on("tableBuilt",()=>{
+    //       console.log(table.getData());
+    //     })
+    // });
+    
+    var table = new Tabulator("#example-table", {
+        ajaxURL: "https://dummyjson.com/users", // API de données fictives
+        layout:"fitDataFill",
+        ajaxResponse: function(url, params, response) {
+            return response.users; // Adapter selon la structure de l'API
+        },
+        autoColumns: true // Organise les colonnes automatiquement
     });
+    table.on("tableBuilt",()=>{
+      console.log("Affichage des données récupérées");
+      console.log(table.getAjaxUrl());
+    })
+    
   </script>
 
 </body>
