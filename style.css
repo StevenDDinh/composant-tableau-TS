@@ -199,14 +199,13 @@ body{
     border-bottom: 0.5px solid var(--Separateur-Sparateur, #D2D2D2);
     background: #FFF;
 }
-
 .tabulator-row.tabulator-selected {
-    background-color: #A3C9F1 !important;
+    background-color: #A3C9F1;
 }
 
 /* On enlève les lignes de couleurs grises */
 .tabulator-row.tabulator-row-even{
-    background-color: white;
+    background-color: none;
 }
 
 

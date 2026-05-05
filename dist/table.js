@@ -336,11 +336,10 @@ const table = new Tabulator("#id-table", {
             formatter: (cell) => {
                 const val = cell.getValue() || "";
                 return `
-                    <select class="champ-encadre">
-                        <option>--- Selectionner un champ ---</option>
-                        <option value="Oui" ${val === 'Oui' ? 'selected' : ''}>Oui</option>
-                        <option value="Non" ${val === 'Non' ? 'selected' : ''}>Non</option>
-                    </select>
+                    <label class="switch">
+                        <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
+                        <span class="slider round"></span>
+                    </label>
                 `;
             }
         },
@@ -352,11 +351,10 @@ const table = new Tabulator("#id-table", {
             formatter: (cell) => {
                 const val = cell.getValue() || "";
                 return `
-                    <select class="champ-encadre">
-                        <option>--- Selectionner un champ ---</option>
-                        <option value="Oui" ${val === 'Oui' ? 'selected' : ''}>Oui</option>
-                        <option value="Non" ${val === 'Non' ? 'selected' : ''}>Non</option>
-                    </select>
+                    <label class="switch">
+                        <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
+                        <span class="slider round"></span>
+                    </label>
                 `;
             }
         },
@@ -721,11 +719,20 @@ table.on("rowSelectionChanged", (data) => {
         });
     }
 });
-// Bouton ajouter un contact, ajoute une ligne vide à compléter
+// Bouton qui ajoute une ligne vide à compléter
 const btnContact = document.querySelector("#btn-contact");
 btnContact?.addEventListener("click", () => {
     console.log("clique");
     table.addRow();
     remplisseurDeSelect(".champ-fonction-encadre", "fonction", table.getData());
     console.log(table.getDataCount());
+});
+// Bouton transmettre les informations
+const btnTransmettre = document.querySelector(".btn-transmettre");
+table.on("tableBuilt", () => {
+    const data = table.getData();
+    console.log(data);
+});
+btnTransmettre?.addEventListener("click", () => {
+    console.log("clique");
 });
