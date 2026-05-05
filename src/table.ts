@@ -299,6 +299,7 @@ const table = new Tabulator("#id-table", {
     layout: "fitDataFill", //Permet de redimensionner automatiquement les colonnes selon la taille de la page
     movableColumns: false, //Permet de déplacer les colonnes du tableau
     height: "515px", //Hauteur du tableau
+    renderVertical:"basic", // Permet de désactiver le DOM virtuel et donc de charger toutes les données, c'est moins optimisé mais pour le moment j'en ai besoin 
 
     pagination:false, // Activation de la pagination
     paginationSize:20, // Nombre de ligne maximum par page
@@ -337,20 +338,11 @@ const table = new Tabulator("#id-table", {
         headerFilterFunc: "in",
         formatter:(cell):any =>{
                 const val = cell.getValue() || "";
+                const title = cell.getColumn().getField();
                 return `
-                    <input type="text" class="champ-encadre" value="${val}" placeholder="Saisir un nom...">
+                    <input type="text" class="champ-encadre" value="${val}" placeholder="Saisir un ${title}...">
                 `;
-            },
-        // 2. On sauvegarde la donnée quand l'utilisateur tape du texte
-        // cellClick: (e, cell) => {
-        //     const vTarget= <HTMLSelectElement>e.target
-        //     if (vTarget.tagName === "INPUT") {
-        //         vTarget.addEventListener('input', (event) => {
-        //             cell.setValue((<HTMLSelectElement>event.target).value);
-        //         }, { once: true });
-        //     }
-        // }
-        
+            }        
         },
     // Définition des colonnes du tableau
     columns: [
@@ -362,6 +354,7 @@ const table = new Tabulator("#id-table", {
                 const val = cell.getValue() || "";
                 return `
                     <select class="champ-encadre">
+                        <option>--- Selectionner un champ ---</option>
                         <option value="Monsieur" ${val === 'M.' ? 'selected' : ''}>Monsieur</option>
                         <option value="Madame" ${val === 'Mme' ? 'selected' : ''}>Madame</option>
                     </select>
@@ -378,7 +371,8 @@ const table = new Tabulator("#id-table", {
                 const val = cell.getValue() || "";
                 return `
                     <select class="champ-fonction-encadre">
-                        <option>${val}</option>
+                        <option ${val === '' ? 'selected' : ''}>--- Selectionner un champ ---</option>
+                        <option ${val !== '' ? 'selected' : ''}>${val}</option>
                     </select>
                 `;
             },},
@@ -406,8 +400,9 @@ const table = new Tabulator("#id-table", {
                 const val = cell.getValue() || "";
                 return `
                     <select class="champ-encadre">
-                        <option value="Oui" ${val === 'oui' ? 'selected' : ''}>Oui</option>
-                        <option value="Non" ${val === 'non' ? 'selected' : ''}>Non</option>
+                        <option>--- Selectionner un champ ---</option>
+                        <option value="Oui" ${val === 'Oui' ? 'selected' : ''}>Oui</option>
+                        <option value="Non" ${val === 'Non' ? 'selected' : ''}>Non</option>
                     </select>
                 `;
             }  
@@ -421,6 +416,7 @@ const table = new Tabulator("#id-table", {
                 const val = cell.getValue() || "";
                 return `
                     <select class="champ-encadre">
+                        <option>--- Selectionner un champ ---</option>
                         <option value="Oui" ${val === 'Oui' ? 'selected' : ''}>Oui</option>
                         <option value="Non" ${val === 'Non' ? 'selected' : ''}>Non</option>
                     </select>
@@ -725,15 +721,12 @@ document.addEventListener("DOMContentLoaded", () => {
 const remplisseurDeSelect = (select: string, valeur: string, data: any[]) => {
     // Récupération de l'élément HTML
     const listesSelectHtml:NodeListOf<Element> = document.querySelectorAll(select);
-    console.log(listesSelectHtml);
 
     // Création de la liste unique
     const valeursUniques = [...new Set(data.map(ligne => ligne[valeur]))].sort();
-    let i:number = 0;
 
     // 3. Boucle sur CHAQUE <select> trouvé pour le remplir
     listesSelectHtml.forEach((selectNode) => {
-        console.log(i+=1, selectNode);
         
         valeursUniques.forEach((elt) => {
             const newOption = document.createElement("option");
@@ -851,10 +844,13 @@ table.on("rowSelectionChanged", (data:any) => {
     }
 });
 
+
+// Bouton ajouter un contact, ajoute une ligne vide à compléter
 const btnContact = document.querySelector("#btn-contact");
 
 btnContact?.addEventListener("click", ()=>{
     console.log("clique");
     table.addRow();
+    remplisseurDeSelect(".champ-fonction-encadre","fonction",table.getData());
     console.log(table.getDataCount());
 })
