@@ -299,7 +299,7 @@ const table = new Tabulator("#id-table", {
     layout: "fitDataFill", //Permet de redimensionner automatiquement les colonnes selon la taille de la page
     movableColumns: false, //Permet de déplacer les colonnes du tableau
     height: "515px", //Hauteur du tableau
-    renderVertical:"basic", // Permet de désactiver le DOM virtuel et donc de charger toutes les données, c'est moins optimisé mais pour le moment j'en ai besoin 
+    renderVertical:"basic", // Permet de désactiver le DOM virtuel et donc de charger toutes les données
 
     pagination:false, // Activation de la pagination
     paginationSize:20, // Nombre de ligne maximum par page
@@ -424,7 +424,7 @@ const table = new Tabulator("#id-table", {
             }       
         },
         // Colonne action
-        { title: "DPO", field: "faker", frozen: true, headerSort:false,
+        { title: "DPO", field: "faker", frozen: false, headerSort:false,
             width:50,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
@@ -439,7 +439,7 @@ const table = new Tabulator("#id-table", {
             headerFilter: undefined, 
             headerPopupIcon: ""  
         },
-        { title: "Contact principal OCTIME", field: "faker", frozen: true, headerSort:false,
+        { title: "Contact principal OCTIME", field: "faker", frozen: false, headerSort:false,
             
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
@@ -454,7 +454,7 @@ const table = new Tabulator("#id-table", {
             headerFilter: undefined, 
             headerPopupIcon: ""  
         },
-        { title: "Contact principal STAFFELIO", field: "faker", frozen: true, headerSort:false,
+        { title: "Contact principal STAFFELIO", field: "faker", frozen: false, headerSort:false,
             formatter: (cell: any) => {
                 const checked = cell.getValue() ? "checked" : "";
                 return `

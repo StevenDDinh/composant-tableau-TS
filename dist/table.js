@@ -361,7 +361,7 @@ const table = new Tabulator("#id-table", {
             }
         },
         // Colonne action
-        { title: "DPO", field: "faker", frozen: true, headerSort: false,
+        { title: "DPO", field: "faker", frozen: false, headerSort: false,
             width: 50,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
@@ -375,7 +375,7 @@ const table = new Tabulator("#id-table", {
             headerPopup: false,
             headerFilter: undefined,
             headerPopupIcon: "" },
-        { title: "Contact principal OCTIME", field: "faker", frozen: true, headerSort: false,
+        { title: "Contact principal OCTIME", field: "faker", frozen: false, headerSort: false,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
                 return `
@@ -388,7 +388,7 @@ const table = new Tabulator("#id-table", {
             headerPopup: false,
             headerFilter: undefined,
             headerPopupIcon: "" },
-        { title: "Contact principal STAFFELIO", field: "faker", frozen: true, headerSort: false,
+        { title: "Contact principal STAFFELIO", field: "faker", frozen: false, headerSort: false,
             formatter: (cell) => {
                 const checked = cell.getValue() ? "checked" : "";
                 return `

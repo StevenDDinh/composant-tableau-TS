@@ -6,8 +6,9 @@ body{
     padding-bottom: 10px;
     justify-content: flex-end;
     align-items: flex-end;
-    gap: 20px;
+    gap: 10px; /* J'ai réduit le gap pour les petits écrans */
     align-self: stretch;
+    flex-wrap: wrap; /* LIGNE AJOUTÉE : Permet aux boutons de passer à la ligne si l'écran est trop petit */
 }
 
 #id-barre-recherche{
@@ -17,8 +18,8 @@ body{
     padding: 0 10px 0 5px;
     align-items: center;
     gap: 10px;
-    flex: 1 0 0;
-
+    /* LIGNE MODIFIÉE : Permet à la barre de grandir, mais s'adapte sur mobile */
+    flex: 1 1 200px; 
     border-radius: 5px;
     border: 1px solid var(--Texte-Noir2, #6A6D71);
     background: var(--Blanc, #FFF);
@@ -453,7 +454,8 @@ label{
  *  */
 #popupOrganisation{
     display: none;
-    width: 450px;
+    width: 90vw/*450px*/;
+    max-width: 450px;
     flex-direction: column;
     align-items: flex-start;
     position: absolute;
@@ -554,7 +556,9 @@ label{
     position: absolute;
     top: calc(100% + 5px); 
     left:auto;
-    width: 600px; /* Largeur de la maquette */
+    width: 90vw; /*600px;  Largeur de la maquette */
+    max-width: 600px;
+    right: 0;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 25px rgba(0,0,0,0.15);
@@ -638,10 +642,12 @@ select option{
     display: flex;
     gap: 20px;
     margin-bottom: 15px;
+    flex-wrap: wrap; /* LIGNE AJOUTÉE : Permet aux deux champs date de s'empiler sur mobile */
 }
 
 .form-row .half {
-    width: 140px;
+    width: 100%;
+    max-width: 140px;
     margin-bottom: 0;
 }
 
@@ -745,4 +751,60 @@ input:checked + .slider {
 /* Mouvement du petit rond blanc */
 input:checked + .slider:before {
   transform: translateX(14px);
+}
+
+@media screen and (max-width: 768px) {
+    /* On empile tous les éléments de la barre d'en-tête */
+    #barre-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px; /* Ajoute un peu d'espace entre la barre et les boutons */
+    }
+
+    /* La barre de recherche prend toute la largeur */
+    #id-barre-recherche {
+        max-height: 30px;
+        width: 100%;
+        box-sizing: border-box; /* Empêche ses propres paddings de la faire déborder */
+    }
+    
+    /* 
+     * LA CORRECTION EST ICI : 
+     * On retire les marges intérieures (padding) des DIV parents.
+     * Ainsi, les boutons à l'intérieur pourront toucher parfaitement les bords.
+     */
+    #id-organiser-colonne, #id-filtre, #id-action {
+        width: 100%;
+        padding: 0; 
+    }
+
+    /* Les boutons prennent toute la largeur de leur parent, sans déborder */
+    #btn-organiser-colonne, #btn-filtre, #btn-contact {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box; 
+    }
+
+    /* On empile les boutons dans le footer du filtre global */
+    .popup-footer-filtre-global {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .popup-footer-filtre-global div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .btn-annuler-av, .btn-valider-av, .btn-reinitialiser-av {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* On centre le bouton de transmission en bas */
+    #div-btn-transmettre {
+        justify-content: center;
+    }
 }
