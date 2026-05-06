@@ -16,7 +16,7 @@ Tabulator.extendModule?.("filter", "filters", {
     }
 });
 // Fonction qui récupère les dates et les convertis en objet date
-const recupDate: (T: string, U: string) => Date[] = (idDateDeb:string, idDateFin:string)=>{
+const recupDate = (idDateDeb:string, idDateFin:string)=>{
     // On récupère les dates
     const dateDeb:string|null = (<HTMLInputElement>document.querySelector(idDateDeb)).value;
     const dateFin:string|null = (<HTMLInputElement>document.querySelector(idDateFin)).value;
@@ -391,11 +391,8 @@ const table = new Tabulator("#id-table", {
             headerFilter: emptyHeaderFilter,
             headerFilterFunc: "like"
         },
-        //Colonne AccesSupport
-        { title: "AccesSupport", field: "accesSupport",
-            // editor: "list", editorParams: {
-            //     values: ["oui", "non"]
-            // },    
+        {
+            title:"DPO", field: "dpo",
             formatter:(cell):any =>{
                 const val = cell.getValue() || "";
                 return `
@@ -404,13 +401,30 @@ const table = new Tabulator("#id-table", {
                         <span class="slider round"></span>
                     </label>
                 `;
-            }  
+            },
+            // @ts-ignore
+            headerPopup: false, 
+            headerFilter: undefined, 
+            headerPopupIcon: "" 
+        },
+        //Colonne AccesSupport
+        { title: "Référent OCTIME", field: "referent_a",
+            formatter:(cell):any =>{
+                const val = cell.getValue() || "";
+                return `
+                    <label class="switch">
+                        <input type="checkbox" ${val === 'Oui'? 'checked': ''}>
+                        <span class="slider round"></span>
+                    </label>
+                `;
+            },
+            // @ts-ignore
+            headerPopup: false, 
+            headerFilter: undefined, 
+            headerPopupIcon: ""
         },
         //Colonne ContactPrincipe
-        { title: "ContactPrincipe", field: "contactPrincipe",
-            // editor: "list", editorParams: {
-            //     values: ["oui", "non"]
-            // },
+        { title: "Référent STAFFELIO", field: "referent_b",
             formatter:(cell):any =>{
                 const val = cell.getValue() || "";
                 return `
@@ -419,47 +433,37 @@ const table = new Tabulator("#id-table", {
                         <span class="slider round"></span>
                     </label>
                 `;
-            }       
+            },
+            // @ts-ignore
+            headerPopup: false, 
+            headerFilter: undefined, 
+            headerPopupIcon: ""        
         },
         // Colonne action
-        { title: "DPO", field: "faker", frozen: false, headerSort:false,
-            width:50,
+        { title: "En poste", field: "en_poste",
             formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
+                const val = cell.getValue() || "";
                 return `
                     <label class="switch">
-                        <input type="checkbox" ${checked}>
+                        <input type="checkbox" ${val === 'Oui'? 'checked': ''}>
                         <span class="slider round"></span>
-                    </label>`;
+                    </label>
+                `;
                 },
             // @ts-ignore
             headerPopup: false, 
             headerFilter: undefined, 
             headerPopupIcon: ""  
         },
-        { title: "Contact principal OCTIME", field: "faker", frozen: false, headerSort:false,
-            
+        { title: "Accès support", field: "acces_support",
             formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
+                const val = cell.getValue() || "";
                 return `
                     <label class="switch">
-                        <input type="checkbox" ${checked}>
+                        <input type="checkbox" ${val === 'Oui'? 'checked': ''}>
                         <span class="slider round"></span>
-                    </label>`;
-                },
-            // @ts-ignore
-            headerPopup: false, 
-            headerFilter: undefined, 
-            headerPopupIcon: ""  
-        },
-        { title: "Contact principal STAFFELIO", field: "faker", frozen: false, headerSort:false,
-            formatter: (cell: any) => {
-                const checked = cell.getValue() ? "checked" : "";
-                return `
-                    <label class="switch">
-                        <input type="checkbox" ${checked}>
-                        <span class="slider round"></span>
-                    </label>`;
+                    </label>
+                `;
                 },
             // @ts-ignore
             headerPopup: false, 

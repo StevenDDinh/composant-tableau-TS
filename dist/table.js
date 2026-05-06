@@ -328,11 +328,24 @@ const table = new Tabulator("#id-table", {
             headerFilter: emptyHeaderFilter,
             headerFilterFunc: "like"
         },
+        {
+            title: "DPO", field: "dpo",
+            formatter: (cell) => {
+                const val = cell.getValue() || "";
+                return `
+                    <label class="switch">
+                        <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
+                        <span class="slider round"></span>
+                    </label>
+                `;
+            },
+            // @ts-ignore
+            headerPopup: false,
+            headerFilter: undefined,
+            headerPopupIcon: ""
+        },
         //Colonne AccesSupport
-        { title: "AccesSupport", field: "accesSupport",
-            // editor: "list", editorParams: {
-            //     values: ["oui", "non"]
-            // },    
+        { title: "Référent OCTIME", field: "referent_a",
             formatter: (cell) => {
                 const val = cell.getValue() || "";
                 return `
@@ -341,13 +354,13 @@ const table = new Tabulator("#id-table", {
                         <span class="slider round"></span>
                     </label>
                 `;
-            }
-        },
+            },
+            // @ts-ignore
+            headerPopup: false,
+            headerFilter: undefined,
+            headerPopupIcon: "" },
         //Colonne ContactPrincipe
-        { title: "ContactPrincipe", field: "contactPrincipe",
-            // editor: "list", editorParams: {
-            //     values: ["oui", "non"]
-            // },
+        { title: "Référent STAFFELIO", field: "referent_b",
             formatter: (cell) => {
                 const val = cell.getValue() || "";
                 return `
@@ -356,44 +369,35 @@ const table = new Tabulator("#id-table", {
                         <span class="slider round"></span>
                     </label>
                 `;
-            }
-        },
+            },
+            // @ts-ignore
+            headerPopup: false,
+            headerFilter: undefined,
+            headerPopupIcon: "" },
         // Colonne action
-        { title: "DPO", field: "faker", frozen: false, headerSort: false,
-            width: 50,
+        { title: "En poste", field: "en_poste",
             formatter: (cell) => {
-                const checked = cell.getValue() ? "checked" : "";
+                const val = cell.getValue() || "";
                 return `
                     <label class="switch">
-                        <input type="checkbox" ${checked}>
+                        <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
                         <span class="slider round"></span>
-                    </label>`;
+                    </label>
+                `;
             },
             // @ts-ignore
             headerPopup: false,
             headerFilter: undefined,
             headerPopupIcon: "" },
-        { title: "Contact principal OCTIME", field: "faker", frozen: false, headerSort: false,
+        { title: "Accès support", field: "acces_support",
             formatter: (cell) => {
-                const checked = cell.getValue() ? "checked" : "";
+                const val = cell.getValue() || "";
                 return `
                     <label class="switch">
-                        <input type="checkbox" ${checked}>
+                        <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
                         <span class="slider round"></span>
-                    </label>`;
-            },
-            // @ts-ignore
-            headerPopup: false,
-            headerFilter: undefined,
-            headerPopupIcon: "" },
-        { title: "Contact principal STAFFELIO", field: "faker", frozen: false, headerSort: false,
-            formatter: (cell) => {
-                const checked = cell.getValue() ? "checked" : "";
-                return `
-                    <label class="switch">
-                        <input type="checkbox" ${checked}>
-                        <span class="slider round"></span>
-                    </label>`;
+                    </label>
+                `;
             },
             // @ts-ignore
             headerPopup: false,
