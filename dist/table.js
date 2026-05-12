@@ -278,7 +278,8 @@ const table = new Tabulator("#id-table", {
             const val = cell.getValue() || "";
             const title = cell.getColumn().getField();
             return `
-                    <input type="text" class="champ-encadre" value="${val}" placeholder="Saisir un ${title}...">
+                    <input type="text" class="champ-encadre" value="${val}" placeholder="Saisir un ${title}..."
+                    ${(title === "nom" || title === "prenom" || title === "faker") ? "disabled" : ""}> 
                 `;
         }
     },
@@ -397,6 +398,17 @@ const table = new Tabulator("#id-table", {
                         <input type="checkbox" ${val === 'Oui' ? 'checked' : ''}>
                         <span class="slider round"></span>
                     </label>
+                `;
+            },
+            // @ts-ignore
+            headerPopup: false,
+            headerFilter: undefined,
+            headerPopupIcon: "" },
+        { title: "Bouton", field: "faker", frozen: true, headerSort: false,
+            formatter: (cell) => {
+                const val = cell.getValue() || "";
+                return `
+                    <button class="btn-click"> Bouton cliquable</button>
                 `;
             },
             // @ts-ignore
