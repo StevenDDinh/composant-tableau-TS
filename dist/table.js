@@ -408,7 +408,30 @@ const table = new Tabulator("#id-table", {
             formatter: (cell) => {
                 const val = cell.getValue() || "";
                 return `
-                    <button class="btn-click"> Bouton cliquable</button>
+                    <div class="divBoutons">
+                        <button class="btn-oeil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#clip0_286_483)">
+                            <path d="M7.99573 3C11.7583 3.00005 15.1051 5.62576 15.9843 9.04199C16.0532 9.30942 15.8921 9.58221 15.6246 9.65104C15.3572 9.71987 15.0844 9.55876 15.0156 9.29134C14.2528 6.32764 11.3131 4.00005 7.99573 4C4.679 4 1.74727 6.32697 0.984338 9.29134C0.915506 9.55876 0.642712 9.71987 0.375288 9.65104C0.107868 9.58221 -0.0532381 9.30942 0.0155878 9.04199C0.894662 5.62637 4.23246 3 7.99573 3Z" fill="#505458"/>
+                            <path d="M7.99579 3C11.7584 3.00005 15.1052 5.62576 15.9844 9.04199C16.0532 9.30942 15.8921 9.58221 15.6247 9.65104C15.3573 9.71987 15.0845 9.55876 15.0157 9.29134C14.2529 6.32764 11.3131 4.00005 7.99579 4C4.67906 4 1.74733 6.32697 0.984399 9.29134C0.915567 9.55876 0.642773 9.71987 0.375349 9.65104C0.107929 9.58221 -0.0531771 9.30942 0.0156489 9.04199C0.894723 5.62637 4.23253 3 7.99579 3Z" fill="#505458"/>
+                            <path d="M10.2224 8.88831C10.2224 7.66132 9.22766 6.66663 8.00067 6.66663C6.77368 6.66663 5.77899 7.66131 5.77899 8.88831C5.779 10.1153 6.77368 11.11 8.00067 11.11C9.22765 11.11 10.2223 10.1153 10.2224 8.88831ZM11.2224 8.88831C11.2223 10.6676 9.77994 12.11 8.00067 12.11C6.2214 12.11 4.779 10.6676 4.77899 8.88831C4.77899 7.10903 6.22139 5.66663 8.00067 5.66663C9.77994 5.66663 11.2224 7.10903 11.2224 8.88831Z" fill="#505458"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_286_483">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                            </defs>
+                            </svg>
+                        </button>
+
+                        <button class="btn-poubelle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M13.6533 3.34925H10.1067C10.1067 2.23709 9.19804 1.33325 8.08 1.33325C6.96196 1.33325 6.05333 2.23709 6.05333 3.34925H2.50667C2.22631 3.34925 2 3.57437 2 3.85325C2 4.13213 2.22631 4.35725 2.50667 4.35725H3.35111V12.9253C3.35111 13.9433 4.18542 14.7733 5.20889 14.7733H10.9511C11.9746 14.7733 12.8089 13.9433 12.8089 12.9253V4.35725H13.6533C13.9337 4.35725 14.16 4.13213 14.16 3.85325C14.16 3.57437 13.9337 3.34925 13.6533 3.34925ZM8.08 2.34125C8.63733 2.34125 9.09333 2.79485 9.09333 3.34925H7.06667C7.06667 2.79485 7.52267 2.34125 8.08 2.34125ZM11.7956 12.9253C11.7956 13.3889 11.4172 13.7653 10.9511 13.7653H5.20889C4.74276 13.7653 4.36444 13.3889 4.36444 12.9253V4.35725H11.7956V12.9253Z" fill="#505458"/>
+                            <path d="M6.91327 12.0532C7.18994 12.0532 7.41327 11.8299 7.41327 11.5532V6.55322C7.41327 6.27656 7.18994 6.05322 6.91327 6.05322C6.6366 6.05322 6.41327 6.27656 6.41327 6.55322V11.5532C6.41327 11.8299 6.6366 12.0532 6.91327 12.0532Z" fill="#505458"/>
+                            <path d="M9.2467 12.0532C9.52337 12.0532 9.7467 11.8299 9.7467 11.5532V6.55322C9.7467 6.27656 9.52337 6.05322 9.2467 6.05322C8.97004 6.05322 8.7467 6.27656 8.7467 6.55322V11.5532C8.7467 11.8299 8.97004 12.0532 9.2467 12.0532Z" fill="#505458"/>
+                            </svg>
+                        </button>
+
+                    </div>
                 `;
             },
             // @ts-ignore
@@ -449,11 +472,21 @@ const btnFermer = document.querySelector("#fermer-interrogation");
 const btnAnnuler = document.querySelector(".btn-annuler-av");
 const btnValider = document.querySelector(".btn-valider-av");
 const btnReinitialiser = document.querySelector(".btn-reinitialiser-av");
+const btnOeil = document.querySelector(".btn-oeil");
+const btnPoubelle = document.querySelector(".btn-poubelle");
 const selectNom = document.querySelector("#nomSelect");
 const selectPrenom = document.querySelector("#prenomSelect");
 const selectFonction = document.querySelector("#fonctionSelect");
 const inputDateDeb = document.querySelector("#dateDeb-global");
 const inputDateFin = document.querySelector("#dateFin-global");
+document.addEventListener("DOMContentLoaded", () => {
+    btnOeil?.addEventListener("click", () => {
+        console.log("clique sur le bouton oeil");
+    });
+    btnPoubelle?.addEventListener("click", () => {
+        console.log("clique sur le bouton poubelle");
+    });
+});
 //Barre de recherche
 barrRecherche?.addEventListener("keyup", () => {
     const valeur = barrRecherche.value;
