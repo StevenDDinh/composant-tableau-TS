@@ -910,10 +910,9 @@ btnContact?.addEventListener("click", ()=>{
 // Bouton transmettre les informations
 const btnTransmettre = document.querySelector(".btn-transmettre");
 table.on("tableBuilt",()=>{
-    const data = table.getData();
-    console.log(data)
-})
+    btnTransmettre?.addEventListener("click",()=>{
+        const data = table.getData();
+        console.log(JSON.stringify(data));
+    });
+});
 
-btnTransmettre?.addEventListener("click",()=>{
-    console.log("clique");
-})
